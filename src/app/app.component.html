@@ -1,2 +1,61 @@
-<h1>App komponent</h1>
+<!--Navigationsleiste-->
+<nav class="navbar navbar-light bg-primary navbar-expand-lg">
+    <div class="container-fluid">
+        <!--Logo und Name-->
+        <a href="#" class="navbar-brand mb-0 h1">
+            <img src="./shared/icons/haushalt.png" width="30" height="30" class="d-inline-block">
+            Haushalt
+        </a>
+
+        <!--Menü-->
+        <ul class="navbar-nav me-auto my-2 my-lg-0">
+
+            <!--Berichte-->
+            <li class="nav-item dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="./shared/icons/berichte.png" width="30" height="30" class="d-inline-block">
+                    Berichte
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a href="#" class="dropdown-item">Ausgaben</a></li>
+                    <li><a href="#" class="dropdown-item">Ausgaben</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="#" class="dropdown-item">Ausgaben</a></li>
+                </ul>
+            </li>
+
+            <!--Dokumente-->
+            <li class="nav-item dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="./shared/icons/berichte.png" width="30" height="30" class="d-inline-block">
+                    Dokumente
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a href="#" class="dropdown-item">Laufende Ausgaben</a></li>
+                    <li><a href="#" class="dropdown-item">Laufende Einkommen</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="#" class="dropdown-item">Kontoauszüge</a></li>
+                    <li><a href="#" class="dropdown-item">Überweisungen</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="#" class="dropdown-item">Anfangskontostände</a></li>
+                </ul>
+            </li>
+
+            <!--Information-->
+            <li class="nav-item dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="./shared/icons/berichte.png" width="30" height="30" class="d-inline-block">
+                    Information
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a routerLink="ausgaben" class="dropdown-item">Ausgaben</a></li>
+                    <li><a routerLink="einkommen" class="dropdown-item">Einkommen</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a routerLink="konten" class="dropdown-item">Konten</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <router-outlet></router-outlet>
