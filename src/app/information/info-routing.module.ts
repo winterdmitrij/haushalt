@@ -6,7 +6,7 @@ import { InfoComponent } from "./info.component";
 import { KontenComponent } from "./konten/konten.component";
 
 const routes: Routes = [
-    { path: '', component: InfoComponent, children: [
+    { path: 'info', component: InfoComponent, children: [
         { path: 'ausgaben', component: AusgabenComponent },
         { path: 'einkommen', component: EinkommenComponent },
         { path: 'konten', component: KontenComponent }

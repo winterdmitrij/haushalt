@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./einkommen.component.css']
 })
 export class EinkommenComponent implements OnInit {
+  
+  title = 'Einkommen';
 
   constructor() { }
 
