@@ -11,3 +11,12 @@ export interface Konto {
     beschreibung?: string;
     istSichtbar: boolean;
 }
+
+export class Kontostand {
+    konto!: Konto;
+    datum!: Date;
+    startStand!: number;
+    stand!: number;
+
+    
+}
