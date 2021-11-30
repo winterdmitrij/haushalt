@@ -1,1 +1,28 @@
-<p>anfangskontostand works!</p>
+<!--Header-->
+<div class="container-fluid">
+    <h2 class="text-center">Anfangskontostände</h2>
+    <button class="btn btn-primary" type="button">Neue Gruppe</button>
+    <hr>
+</div>
+
+<!--Tabelle-->
+<div class="container-fluid">
+    <div class="table table-hover">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th score="col">#</th>
+                <th scope="col">KontoId</th>
+                <th scope="col">Datum</th>
+                <th scope="col">Kontostand</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let ks of kontoStaende">
+                <th>{{ ks.kontoId }}</th>
+                <th>{{ ks.datum | date }}</th>
+                <th>{{ ks.startStand | currency: 'EUR' }}</th>
+            </tr>
+        </tbody>
+    </div>
+</div>

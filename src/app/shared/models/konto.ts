@@ -13,10 +13,8 @@ export interface Konto {
 }
 
 export class Kontostand {
-    konto!: Konto;
+    kontoId!: number;
     datum!: Date;
     startStand!: number;
     stand!: number;
-
-    
 }

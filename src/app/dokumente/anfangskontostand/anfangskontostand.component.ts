@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Kontostand } from 'src/app/shared/models/konto';
+import { KontoStoreService } from 'src/app/shared/services/konto-store.service';
 
 @Component({
   selector: 'app-anfangskontostand',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnfangskontostandComponent implements OnInit {
 
-  constructor() { }
+  kontoStaende?: Kontostand[];
+
+  constructor(private kss: KontoStoreService) { }
 
   ngOnInit(): void {
+    this.kontoStaende = this.kss.getAlleKontostaende();
   }
 
 }

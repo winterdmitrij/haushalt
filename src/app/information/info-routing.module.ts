@@ -5,7 +5,7 @@ import { EinkommenComponent } from "./einkommen/einkommen.component";
 import { InfoComponent } from "./info.component";
 import { KontenComponent } from "./konten/konten.component";
 
-const routes: Routes = [
+const infoRoutes: Routes = [
     { path: 'info', component: InfoComponent, children: [
         { path: 'ausgaben', component: AusgabenComponent },
         { path: 'einkommen', component: EinkommenComponent },
@@ -13,7 +13,7 @@ const routes: Routes = [
     ]}
 ]
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
+    imports: [RouterModule.forChild(infoRoutes)],
     exports: [RouterModule]
 })
 export class InfoRoutingModule {}

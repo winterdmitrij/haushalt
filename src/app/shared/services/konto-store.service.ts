@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Kontengruppe, Konto } from '../models/konto';
+import { Kontengruppe, Konto, Kontostand } from '../models/konto';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,8 @@ export class KontoStoreService {
   kontenGruppen: Kontengruppe[];
   kontoGruppe?: Kontengruppe;
   //konten: Konto[];
-  //konto: Konto; 
+  //konto: Konto;
+  kontoStaende?: Kontostand[];
 
   constructor() {
 
@@ -95,14 +96,28 @@ export class KontoStoreService {
           }
         ]
       }
+    ];
+
+    this.kontoStaende = [
+      {
+        kontoId: 1,
+        datum: new Date(2021, 0, 1),
+        startStand: 1253.21,
+        stand: 1253.21
+      }
     ]
   }
 
-  // Get
+  // Konten
   getAllKontengruppen() {
     return this.kontenGruppen;
   }
   getKontengruppeById(id: number) {
     return this.kontenGruppen.find( kg => kg.id == id );
+  }
+
+  // Kontostände
+  getAlleKontostaende() {
+    return this.kontoStaende;
   }
 }

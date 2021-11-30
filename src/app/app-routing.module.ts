@@ -7,9 +7,7 @@ import { DokuComponent } from './dokumente/doku.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'info', component: InfoComponent },
-  { path: 'doku', component: DokuComponent }
+  { path: 'home', component: HomeComponent }
 ];
 
 @NgModule({
