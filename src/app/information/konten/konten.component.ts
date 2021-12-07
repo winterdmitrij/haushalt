@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { Kontengruppe, Konto } from 'src/app/shared/models/konto';
 import { KontoStoreService } from 'src/app/shared/services/konto-store.service';
 
@@ -7,21 +9,47 @@ import { KontoStoreService } from 'src/app/shared/services/konto-store.service';
   templateUrl: './konten.component.html',
   styleUrls: ['./konten.component.css']
 })
-export class KontenComponent implements OnInit {
+export class KontenComponent implements OnInit, OnDestroy {
   title = 'Konten';
+
   kontengruppen?: Kontengruppe[];
   aktKontengruppe?: Kontengruppe;
-  konten?: Konto[];
+  id?: number = 1;
+  isLoaded = false;
+
+  sub1?: Subscription;
+  sub2?: Subscription;
 
   constructor(private ks: KontoStoreService) { }
-
+  
   ngOnInit(): void {
-    this.kontengruppen = this.ks.getAllKontengruppen();
-    this.aktKontengruppe = this.ks.getKontengruppeById(1);
+    console.log("Kontenkomponent:");
+    
+    this.sub1 = this.ks.getAllKontengruppen().subscribe(
+      (response: Kontengruppe[]) => {
+        this.kontengruppen = response;
+        this.isLoaded = true;
+        console.log('Konten: ', response);  
+      }
+    );
+
+    // this.sub2 = this.ks.getKontengruppeById(1).subscribe(
+    //   (response: Kontengruppe) => {
+    //     this.aktKontengruppe = response;
+    //   }
+    // );
+
+    // if (this.sub1 != null && this.sub2 != null) {
+    //   this.isLoaded = true;
+    // };
   }
 
-  OnClick(id: number) {
-    this.aktKontengruppe = this.ks.getKontengruppeById(id);
+  newAktKontengruppe(aktKontengruppe: Kontengruppe) {
+    this.aktKontengruppe = aktKontengruppe;
   }
-
+  
+  ngOnDestroy(): void {
+    this.sub1?.unsubscribe;
+    this.sub2?.unsubscribe;
+  }
 }

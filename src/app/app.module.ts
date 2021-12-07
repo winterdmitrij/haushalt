@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { InfoModule } from './information/info.module';
 import { HomeComponent } from './home/home.component';
 import { DokuModule } from './dokumente/doku.module';
-import { TokenInterceptor } from './shared/token.intercepter';
 import { KontoStoreService } from './shared/services/konto-store.service';
 
 @NgModule({
@@ -28,8 +27,6 @@ import { KontoStoreService } from './shared/services/konto-store.service';
   ],
   providers: [
     KontoStoreService
-//    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-//    { provide: LOCALE_ID, useValue: 'de' }
   ],
   bootstrap: [AppComponent]
 })

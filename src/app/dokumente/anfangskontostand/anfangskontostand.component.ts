@@ -14,7 +14,7 @@ export class AnfangskontostandComponent implements OnInit {
   constructor(private kss: KontoStoreService) { }
 
   ngOnInit(): void {
-    this.kontoStaende = this.kss.getAlleKontostaende();
+    //this.kontoStaende = this.kss.getAlleKontostaende();
   }
 
 }

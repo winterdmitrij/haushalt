@@ -1,0 +1,65 @@
+<div class="container">
+    <!--Header-->
+    <div class="container-fluid">
+        <h3 class="text-center">Gruppen</h3>
+        <button class="btn btn-primary" type="button">Neue Gruppe</button>
+        <hr>
+    </div>
+
+    <!--Tabelle-->
+    <div class="container-fluid">
+        <table class="table table-hover">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Bezeichnung</th>
+                    <th scope="col">Beschreibung</th>
+                    <th scope="col">Aktionen</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let kontengruppe of kontengruppen">
+                    <th *ngIf="kontengruppe.id == aktId" class="table-active" scope="row">{{ kontengruppe.id }}</th> <!-- *ngIf="kontengruppe.id == aktKontengruppe?.id" -->
+                    <th *ngIf="kontengruppe.id != aktId" scope="row">{{ kontengruppe.id }}</th> <!-- *ngIf="kontengruppe.id != aktKontengruppe?.id" -->
+
+                    <th *ngIf="kontengruppe.id == aktId" class="table-active"><a (click)="OnClick(kontengruppe.id)" class="user-link">{{ kontengruppe.bezeichnung }}</a></th> <!-- *ngIf="kontengruppe.id == aktKontengruppe?.id" -->
+                    <td *ngIf="kontengruppe.id != aktId"><a (click)="OnClick(kontengruppe.id)" class="user-link">{{ kontengruppe.bezeichnung }}</a></td> <!-- *ngIf="kontengruppe.id != aktKontengruppe?.id" -->
+
+                    <th *ngIf="kontengruppe.id == aktId" class="table-active">{{ kontengruppe.beschreibung }}</th> <!-- *ngIf="kontengruppe.id == aktKontengruppe?.id" -->
+                    <td *ngIf="kontengruppe.id != aktId">{{ kontengruppe.beschreibung }}</td> <!-- *ngIf="kontengruppe.id != aktKontengruppe?.id" -->
+
+                    <!--Schaltern-->
+                    <th *ngIf="kontengruppe.id == aktId" class="table-active" style="width: 20%;"> <!-- *ngIf="kontengruppe.id == aktKontengruppe?.id" -->
+                        <a href="#" class="table-link  text-info">
+                            <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="table-link danger">
+                            <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </th>
+                    <td *ngIf="kontengruppe.id != aktId" style="width: 20%;">  <!-- *ngIf="kontengruppe.id != aktKontengruppe?.id" -->
+                        <a href="#" class="table-link  text-info">
+                            <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="table-link danger">
+                            <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

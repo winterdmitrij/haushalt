@@ -13,6 +13,6 @@ export class AppComponent implements OnInit {
   constructor(private route: Router) {};
   
   ngOnInit(): void {
-    this.route.navigate(['/home']);
+    this.route.navigate(['/info/konten']);
   }
 }
