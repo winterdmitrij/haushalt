@@ -13,14 +13,28 @@ export class KontoStoreService extends BaseApi {
     super(http);
   }
 
-  // KontenGruppen
+  // Alle KontenGruppen anzeigen
   getAllKontengruppen(): Observable<Kontengruppe[]> {
     return this.get('kontengruppen');
   }
 
+  // Alle Konten der aktuellen Kontengruppe anzeigen
   getKontengruppeById(id: number): Observable<Kontengruppe> {
-    let url = 'kontengruppen/' + id;
-    return this.get(url);
+    return this.get(`kontengruppen/${id}`);
   }
 
+  // Eine neue Gruppe hinzufügen
+  addNewKontengruppe(kontengruppe: Kontengruppe): Observable<Kontengruppe> {
+    return this.post('kontengruppen/', kontengruppe );
+  }
+
+  // Ändern einer Kontengruppe
+  updKontengruppeById(kontengruppe: Kontengruppe): Observable<Kontengruppe> {
+    return this.put(`kontengruppen/${kontengruppe.id}`, kontengruppe);
+  }
+
+  // Löschen eine Kontengruppe
+  delKontengruppeById(id: number): Observable<void> {
+    return this.delete(`kontengruppen/${id}`);
+  }
 }

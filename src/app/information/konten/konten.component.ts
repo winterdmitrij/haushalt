@@ -14,42 +14,27 @@ export class KontenComponent implements OnInit, OnDestroy {
 
   kontengruppen?: Kontengruppe[];
   aktKontengruppe?: Kontengruppe;
-  id?: number = 1;
   isLoaded = false;
 
-  sub1?: Subscription;
-  sub2?: Subscription;
+  sub?: Subscription;
 
   constructor(private ks: KontoStoreService) { }
   
   ngOnInit(): void {
-    console.log("Kontenkomponent:");
-    
-    this.sub1 = this.ks.getAllKontengruppen().subscribe(
+    this.sub = this.ks.getAllKontengruppen().subscribe(
       (response: Kontengruppe[]) => {
         this.kontengruppen = response;
         this.isLoaded = true;
-        console.log('Konten: ', response);  
       }
     );
-
-    // this.sub2 = this.ks.getKontengruppeById(1).subscribe(
-    //   (response: Kontengruppe) => {
-    //     this.aktKontengruppe = response;
-    //   }
-    // );
-
-    // if (this.sub1 != null && this.sub2 != null) {
-    //   this.isLoaded = true;
-    // };
   }
 
+  // В konten-list есть onClick!!!!!!!!!!!
   newAktKontengruppe(aktKontengruppe: Kontengruppe) {
     this.aktKontengruppe = aktKontengruppe;
   }
   
   ngOnDestroy(): void {
-    this.sub1?.unsubscribe;
-    this.sub2?.unsubscribe;
+    this.sub?.unsubscribe;
   }
 }

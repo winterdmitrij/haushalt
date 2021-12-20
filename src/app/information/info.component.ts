@@ -10,7 +10,7 @@ export class InfoComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.router.navigate(['/konten']);
+    // this.router.navigate(['/konten']);
   }
 
 }
