@@ -23,7 +23,7 @@
                 <tbody>
                     <tr *ngFor="let konto of aktKontengruppe.konten">
                         <td scope="row">{{ konto.id }}</td>
-                        <td>{{ konto.bezeichnung }}</td>
+                        <td>{{ konto.kontoName }}</td>
                         <td>{{ konto.beschreibung }}</td>
                         <td>
                             <input *ngIf="konto.istSichtbar" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked disabled>

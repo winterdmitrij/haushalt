@@ -8,7 +8,7 @@
     <div class="row" *ngIf="isLoaded">
         <!--Linke Seite-->
         <div class="col">
-            <app-konten-list [kontengruppen]="kontengruppen" (aktKontengruppe)="newAktKontengruppe($event)"></app-konten-list>
+            <app-konten-list [kontengruppen]="kontengruppen" (aktKontengruppe)="newAktKontengruppe($event)" (addKontengruppe)="newKontengruppe($event)"></app-konten-list>
         </div>
         <!--Rechte Seite-->
         <div class="col">

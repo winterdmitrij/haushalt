@@ -3,11 +3,11 @@
     {
       "id": 1,
       "bezeichnung": "Karten",
-      "beschreibung": "Das bargeldlose Geld",
+      "kommentar": "Das barlose Geld",
       "konten": [
         {
           "id": 11,
-          "bezeichnung": "EC",
+          "kontoName": "EC",
           "beschreibung": "Sparkasse",
           "istSichtbar": true
         }
@@ -16,17 +16,17 @@
     {
       "id": 2,
       "bezeichnung": "Bargeld",
-      "beschreibung": "Das Geld im Umlauf",
+      "kommentar": "Das Geld im Umlauf",
       "konten": [
         {
           "id": 21,
-          "bezeichnung": "Portmonnee",
+          "kontoName": "Portmonnee",
           "beschreibung": "Geld für laufende Ausgaben",
           "istSichtbar": true
         },
         {
           "id": 22,
-          "bezeichnung": "Reserve",
+          "kontoName": "Reserve",
           "beschreibung": "Kurzfristige Einsparungen",
           "istSichtbar": true
         }
@@ -35,26 +35,26 @@
     {
       "id": 3,
       "bezeichnung": "AEGU",
-      "beschreibung": "Das Geld für besondere Zwecke",
+      "kommentar": "Das Geld für besondere Zwecke",
       "konten": [
         {
           "id": 31,
-          "bezeichnung": "Auto",
+          "kontoName": "Auto",
           "istSichtbar": true
         },
         {
           "id": 32,
-          "bezeichnung": "Einrichtung",
+          "kontoName": "Einrichtung",
           "istSichtbar": true
         },
         {
           "id": 33,
-          "bezeichnung": "Geschänke",
+          "kontoName": "Geschänke",
           "istSichtbar": true
         },
         {
           "id": 34,
-          "bezeichnung": "Urlaub",
+          "kontoName": "Urlaub",
           "istSichtbar": true
         }
       ]
@@ -62,21 +62,21 @@
     {
       "id": 4,
       "bezeichnung": "Einsparungen",
-      "beschreibung": "Die langfristige Einsparungen",
+      "kommentar": "Die langfristige Einsparungen",
       "konten": [
         {
           "id": 41,
-          "bezeichnung": "Tresor",
+          "kontoName": "Tresor",
           "istSichtbar": false
         },
         {
           "id": 42,
-          "bezeichnung": "Anastasia",
+          "kontoName": "Anastasia",
           "istSichtbar": true
         },
         {
           "id": 43,
-          "bezeichnung": "Ekaterina",
+          "kontoName": "Ekaterina",
           "istSichtbar": true
         }
       ]
@@ -84,7 +84,12 @@
     {
       "id": 5,
       "bezeichnung": "Test",
-      "beschreibung": "Das bargeldlose Geld"
+      "kommentar": "Das bargeldlose Geld"
+    },
+    {
+      "id": 6,
+      "bezeichnung": "Test2",
+      "kommentar": "Getestet"
     }
   ]
 }

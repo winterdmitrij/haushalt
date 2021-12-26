@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -16,124 +16,128 @@ export class KontenListComponent implements OnInit, OnDestroy {
 
   @Input() kontengruppen?: Kontengruppe[];
   @Output() aktKontengruppe = new EventEmitter<Kontengruppe>();
+  @Output() addKontengruppe = new EventEmitter<Kontengruppe>();
 
-  aktId?: number;
   sub?: Subscription;
   addForm!: FormGroup;
-  delId?: number;
+  
+  aktId?: number;
   deleteKontengruppe?: Kontengruppe;
-
+  editKontengruppe?: Kontengruppe;
+  addKontengruppeObj?: Kontengruppe;
+  
+  delId?: number;
+  test: any;
+  
   constructor(
     private ks: KontoStoreService,
+    private fb: FormBuilder,
     private router: Router
   ) { }
 
   ngOnInit(): void {    
-    this.sub = this.ks.getKontengruppeById(1).subscribe(
-      (response: Kontengruppe) => {
-        this.aktKontengruppe.emit(response);
-        this.aktId = 1;
-      }
-    );
-    this.onAddKontengruppe();
+    this.onClick(1);
   }
 
   // Beim Auswahl von anderer Kontengruppe
   onClick(id: number) {
-    this.sub = this.ks.getKontengruppeById(id).subscribe(
-      (response: Kontengruppe) => {
-        this.aktKontengruppe.emit(response);
-        this.aktId = id;
-        console.log('onClick: ', response);
-      }
-    );
-    
+    if ( this.aktId !== id ) {
+      this.sub = this.ks.getKontengruppeById(id).subscribe(
+        (response: Kontengruppe) => {
+          this.aktKontengruppe.emit(response);
+          this.aktId = id;
+        }
+      );
+    }
   }
-
+  
   // ---------------------------------------//
   // modales Form: Kontengruppe hinzufügen  //
   // ---------------------------------------//
-
-  // Beim Start des Forms
-  onAddKontengruppe() {
-    console.log('Add Kontengruppe');
+  
+  // Initialisierung des Forms
+  private initForm() {
+    if ( this.addForm ) {
+      return
+    };
     this.addForm = new FormGroup({
-      'id': new FormControl(''),
-      'bezeichnung': new FormControl(''),
-      'beschreibung': new FormControl('')
+      id: new FormControl(''),
+      bezeichnung: new FormControl(''),
+      kommentar: new FormControl('')
     })
-    
   }
   
   // Beim Submit
   onSave() {
-    console.log('On Submit');
+    document?.getElementById('add-kontengruppe-form')?.click(); // Forme schließen
     
-  }
-  
-  // public onAddKontengruppe(addForm: NgForm): void {
-  //   // document?.getElementById('add-taggroups-form')?.click();
-  //   this.ks.addNewKontengruppe(addForm.value).subscribe(
-  //     (response: Kontengruppe) => {
-  //       console.log(response);
-  //       this.onGetKontengruppe(response.id);
-  //       addForm.reset();
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       alert(error.message);
-  //       //addForm.reset();
-  //     }
-  //   );
-  // }
+    this.addKontengruppeObj = {
+      'id': this.addForm.value.id,
+      "bezeichnung": this.addForm.value.bezeichnung,
+      "kommentar": this.addForm.value.kommentar
+    };
+    
+    console.log('onSubmit: ', this.addKontengruppeObj);
 
-  // ---------------------------------------//
-  // modales Form: Kontengruppe hinzufügen  //
-  // ---------------------------------------//
-
-  // Beim Start
-  onStartDelModal(id: number){
-    console.log(id);
-    // this.sub = this.ks.getKontengruppeById(id).subscribe(
-    //   (response: Kontengruppe) => {
-    //     this.aktKontengruppe.emit(response);
-    //     this.aktId = id;
-    //   }
-    // );
-    this.onClick(id);
-    this.delId = this.aktId;
+    this.ks.addNewKontengruppe(this.addKontengruppeObj).subscribe(
+      (response: Kontengruppe) => {
+        console.log('Die Kontengruppe mit ID: ', this.addKontengruppeObj?.id, ' wurde hinzugefügt.');
+        console.log(response);
+        this.addKontengruppe.emit(response);
+        this.onClick(response.id);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
   }
 
-  onDeleteKontengruppe() {
-    if (this.delId != undefined) {
-      this.ks.delKontengruppeById(this.delId);
-      console.log('kontengruppe ', this.delId,  ' wurde gelöscht');
-    }
+  // -----------------------------------//
+  // modales Form: Kontengruppe löschen //
+  // -----------------------------------//
+
+  onDeleteKontengruppe(id: any) {
+    this.ks.delKontengruppeById(id).subscribe(
+      (response: void) => {
+        console.log('Die Kontengruppe mit ID: ', id, ' wurde gelöscht.');
+        this.ngOnInit();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
   }
 
-
-  ngOnDestroy(): void {
-    // this.sub?.unsubscribe;
-  }
-
-
-  onOpenModal(kontengruppe: Kontengruppe, mode: string) {
-    this.onClick(kontengruppe.id);
-    console.log(kontengruppe, ' - ', mode);
+  // Modale Formen
+  onOpenModal(mode: string, kontengruppe?: Kontengruppe) {
+    console.log('onOpenModal: MODE = ', mode);
     
     const container = document.getElementById('main-container');
-   
-
+    
     const button = document.createElement('button');
     button.type = 'button';
     button.style.display = 'none';
     button.setAttribute('data-bs-toggle', 'modal');
-
+    
+    if ( mode === 'edit' ) {
+      this.editKontengruppe = kontengruppe;
+      button.setAttribute('data-bs-target', '#editKontengruppe');
+    }
     if ( mode === 'delete' ) {
       this.deleteKontengruppe = kontengruppe;
       button.setAttribute('data-bs-target', '#deleteKontengruppe');
     }
-
+    if ( mode === 'add' ) {
+      this.initForm();
+      button.setAttribute('data-bs-target', '#addKontengruppe');
+    }
+    
     container?.appendChild(button);
     button.click();
+  }
+
+  // Bei Ausgang
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe;
   }
 }

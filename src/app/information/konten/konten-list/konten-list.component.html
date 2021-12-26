@@ -2,7 +2,7 @@
     <!--Header-->
     <div class="container-fluid">
         <h3 class="text-center">Gruppen</h3>
-        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addKontengruppe" (click)="onAddKontengruppe()">Neue Gruppe</button>
+        <button (click)="onOpenModal('add')" class="btn btn-primary">Neue Gruppe</button>
         <hr>
     </div>
 
@@ -13,53 +13,51 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Bezeichnung</th>
-                    <th scope="col">Beschreibung</th>
+                    <th scope="col">Kommentar</th>
                     <th scope="col">Aktionen</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr *ngFor="let kontengruppe of kontengruppen" (click)="onClick(kontengruppe.id)">
-                    <th *ngIf="kontengruppe.id == aktId" class="table-active" scope="row">{{ kontengruppe.id }}</th> <!-- *ngIf="kontengruppe.id == aktKontengruppe?.id" -->
-                    <th *ngIf="kontengruppe.id != aktId" scope="row">{{ kontengruppe.id }}</th> <!-- *ngIf="kontengruppe.id != aktKontengruppe?.id" -->
+                    <th *ngIf="kontengruppe.id == aktId" class="table-active" scope="row">{{ kontengruppe.id }}</th>
+                    <th *ngIf="kontengruppe.id != aktId" scope="row">{{ kontengruppe.id }}</th>
 
-                    <th *ngIf="kontengruppe.id == aktId" class="table-active">{{ kontengruppe.bezeichnung }}</th> <!-- *ngIf="kontengruppe.id == aktKontengruppe?.id" -->
-                    <td *ngIf="kontengruppe.id != aktId">{{ kontengruppe.bezeichnung }}</td> <!-- *ngIf="kontengruppe.id != aktKontengruppe?.id" -->
+                    <th *ngIf="kontengruppe.id == aktId" class="table-active">{{ kontengruppe.bezeichnung }}</th>
+                    <td *ngIf="kontengruppe.id != aktId">{{ kontengruppe.bezeichnung }}</td>
 
-                    <th *ngIf="kontengruppe.id == aktId" class="table-active">{{ kontengruppe.beschreibung }}</th> <!-- *ngIf="kontengruppe.id == aktKontengruppe?.id" -->
-                    <td *ngIf="kontengruppe.id != aktId">{{ kontengruppe.beschreibung }}</td> <!-- *ngIf="kontengruppe.id != aktKontengruppe?.id" -->
+                    <th *ngIf="kontengruppe.id == aktId" class="table-active">{{ kontengruppe.kommentar }}</th>
+                    <td *ngIf="kontengruppe.id != aktId">{{ kontengruppe.kommentar }}</td>
 
                     <!--Schaltern-->
                     <!-- Ausgewählte Gruppe ist AKTIV -->
                     <th *ngIf="kontengruppe.id == aktId" class="table-active" style="width: 20%;">
-                        <a class="table-link  text-info" data-bs-toggle="modal" data-bs-target="#editKontengruppe">
+                        <!-- EDIT -->
+                        <a (click)="onOpenModal('edit', kontengruppe)" class="table-link  text-info">
                             <span class="fa-stack">
                                 <i class="fa fa-square fa-stack-2x"></i>
                                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
-                        <!-- <a class="table-link danger" data-bs-toggle="modal" data-bs-target="#deleteKontengruppe" (click)="onStartDelModal(kontengruppe.id)">
-                            <span class="fa-stack">
-                                <i class="fa fa-square fa-stack-2x"></i>
-                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a> -->
-                        <a (click)="onOpenModal(kontengruppe, 'delete')" class="table-link danger">
+                        <!-- DELETE -->
+                        <a (click)="onOpenModal('delete', kontengruppe)" class="table-link danger">
                             <span class="fa-stack">
                                 <i class="fa fa-square fa-stack-2x"></i>
                                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
                     </th>
-                    <!-- Ausgewählte Gruppe ist UNAKTIV -->
+                    <!-- Ausgewählte Gruppe ist INAKTIV -->
                     <td *ngIf="kontengruppe.id != aktId" style="width: 20%;">
-                        <a class="table-link  text-info">
+                        <!-- edit -->
+                        <a (click)="onOpenModal('edit', kontengruppe)" class="table-link  text-info">
                             <span class="fa-stack">
                                 <i class="fa fa-square fa-stack-2x"></i>
                                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
-                        <a (click)="onOpenModal(kontengruppe, 'delete')" class="table-link danger">
+                        <!-- delete -->
+                        <a (click)="onOpenModal('delete', kontengruppe)" class="table-link danger">
                             <span class="fa-stack">
                                 <i class="fa fa-square fa-stack-2x"></i>
                                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -82,28 +80,37 @@
 
                 <div class="modal-body" *ngIf="addForm">
 
-                    <form formGroup="addForm" (ngSubmit)="onSave()">
+                    <form [formGroup]="addForm" (ngSubmit)="onSave()">
+                        <!-- ID -->
                         <div class="form-group">
                           <label for="id">Id</label>
                           <input
                             class="form-control"
-                            id="id"
                             type="text"
-                            formControlName="id"
-                            placeholder="Id" required
+                            fornControlName="id"
                           >
                         </div>
+                        <!-- BEZEICHNUNG -->
                         <div class="form-group">
                           <label for="bezeichnung">Bezeichnung</label>
-                          <input type="text" ngModel name="bezeichnung" class="form-control" id="bezeichnung" placeholder="Bezeichnung" required>
+                          <input
+                            class="form-control"
+                            type="text"
+                            formControlName="bezeichnung"
+                          >
                         </div>
+                        <!-- KOMMENTAR -->
                         <div class="form-group">
-                            <label for="beschreibung">Beschreibung</label>
-                            <input type="text" ngModel name="beschreibung" class="form-control" id="beschreibung" placeholder="Beschreibung" required>
+                            <label>Kommentar</label>
+                            <input
+                                class="form-control"
+                                type="text"
+                                formControlName="kommentar"
+                            >
                         </div>
 
                         <div class="modal-footer">
-                          <button type="button" id="add-taggroups-form" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" id="add-kontengruppe-form" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                           <button type="submit" class="btn btn-primary">Speichern</button>
                         </div>
                     </form>
@@ -123,7 +130,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editKontengruppeLabel">Ändern Kontengruppe</h5>
+                    <h5 class="modal-title" id="editKontengruppeLabel">Änderung von der Kontengruppe: "{{ editKontengruppe?.bezeichnung }}"</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -140,23 +147,24 @@
     </div>
 
     <!-- Löschen Modal -->
-    <div class="modal fade" id="deleteKontengruppe" tabindex="-1" role="dialog" aria-labelledby="deleteKontengruppeLabel" aria-hidden="true"> <!-- data-bs-backdrop="static" data-bs-keyboard="false"    -->
+    <div class="modal fade" id="deleteKontengruppe" tabindex="-1" role="dialog" aria-labelledby="deleteKontengruppeLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteKontengruppeLabel">Löschen Kontengruppe</h5>
+                    <h5 class="modal-title" id="deleteKontengruppeLabel">Löschen von der Kontengruppe: "{{ deleteKontengruppe?.bezeichnung }}"</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <p>Willst du es wirklich löschen?</p>
+                    <p>Willst du es wirklich die Kontengruppe mit ID: {{ deleteKontengruppe?.id }} löschen?</p>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="onDeleteKontengruppe()">Löschen</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="onDeleteKontengruppe(deleteKontengruppe?.id)">Löschen</button>
                 </div>
             </div>
         </div>
     </div>
+
 </div>

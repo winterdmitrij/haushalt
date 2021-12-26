@@ -1,8 +1,8 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { DokuModule } from './dokumente/doku.module';
 import { KontoStoreService } from './shared/services/konto-store.service';
 import { DateValueAccessorModule } from 'angular-date-value-accessor';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,12 +22,15 @@ import { DateValueAccessorModule } from 'angular-date-value-accessor';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
     DateValueAccessorModule,
     HttpClientModule,
     InfoModule,
-    DokuModule
+    DokuModule,
+    SharedModule
+  ],
+  exports: [
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     KontoStoreService

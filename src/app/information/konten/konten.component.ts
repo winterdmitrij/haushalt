@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Kontengruppe, Konto } from 'src/app/shared/models/konto';
@@ -14,6 +14,7 @@ export class KontenComponent implements OnInit, OnDestroy {
 
   kontengruppen?: Kontengruppe[];
   aktKontengruppe?: Kontengruppe;
+  addKontengruppe?: Kontengruppe;
   isLoaded = false;
 
   sub?: Subscription;
@@ -21,6 +22,11 @@ export class KontenComponent implements OnInit, OnDestroy {
   constructor(private ks: KontoStoreService) { }
   
   ngOnInit(): void {
+    this.getAllKontengruppen();
+    
+  }
+
+  getAllKontengruppen() {
     this.sub = this.ks.getAllKontengruppen().subscribe(
       (response: Kontengruppe[]) => {
         this.kontengruppen = response;
@@ -32,6 +38,12 @@ export class KontenComponent implements OnInit, OnDestroy {
   // В konten-list есть onClick!!!!!!!!!!!
   newAktKontengruppe(aktKontengruppe: Kontengruppe) {
     this.aktKontengruppe = aktKontengruppe;
+  }
+
+  newKontengruppe(addKontengruppe: Kontengruppe) {
+    this.addKontengruppe = addKontengruppe;
+    this.getAllKontengruppen();
+    // this.newAktKontengruppe(addKontengruppe);
   }
   
   ngOnDestroy(): void {

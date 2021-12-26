@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { InfoRoutingModule } from "./info-routing.module";
 import { InfoComponent } from "./info.component";
@@ -20,6 +21,7 @@ import { KontenDetailsComponent } from './konten/konten-details/konten-details.c
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     InfoRoutingModule
   ]
 })
