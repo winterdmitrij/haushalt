@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Kontengruppe } from 'src/app/shared/models/konto';
+import { Kontengruppe, Konto } from 'src/app/shared/models/konto';
 import { KontoStoreService } from 'src/app/shared/services/konto-store.service';
+import { getTokenSourceMapRange } from 'typescript';
 
 @Component({
   selector: 'app-konten-list',
@@ -16,15 +17,20 @@ export class KontenListComponent implements OnInit, OnDestroy {
 
   @Input() kontengruppen?: Kontengruppe[];
   @Output() aktKontengruppe = new EventEmitter<Kontengruppe>();
+
   @Output() addKontengruppe = new EventEmitter<Kontengruppe>();
+  @Output() updKontengruppe = new EventEmitter<Kontengruppe>();
+  @Output() delKontengruppe = new EventEmitter<Kontengruppe>();
 
   sub?: Subscription;
   addForm!: FormGroup;
+  updForm!: FormGroup;
+  konten?: Konto[];
   
   aktId?: number;
-  deleteKontengruppe?: Kontengruppe;
-  editKontengruppe?: Kontengruppe;
-  addKontengruppeObj?: Kontengruppe;
+  addedKontengruppe?: Kontengruppe;
+  deletedKontengruppe?: Kontengruppe;
+  editedKontengruppe?: Kontengruppe;
   
   delId?: number;
   test: any;
@@ -35,7 +41,8 @@ export class KontenListComponent implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
+    this.initForm();
     this.onClick(1);
   }
 
@@ -57,50 +64,51 @@ export class KontenListComponent implements OnInit, OnDestroy {
   
   // Initialisierung des Forms
   private initForm() {
-    if ( this.addForm ) {
-      return
+    if ( this.addForm && this.updForm ) {
+      return;
     };
     this.addForm = new FormGroup({
       id: new FormControl(''),
       bezeichnung: new FormControl(''),
       kommentar: new FormControl('')
-    })
+    });
+    this.updForm = new FormGroup({
+      id: new FormControl(''),
+      bezeichnung: new FormControl(''),
+      kommentar: new FormControl('')
+    });
   }
+
+  getKonten(): FormArray {
+    return this.addForm.get('konten') as FormArray;
+  }
+
   
   // Beim Submit
   onSave() {
     document?.getElementById('add-kontengruppe-form')?.click(); // Forme schließen
     
-    this.addKontengruppeObj = {
+    this.addedKontengruppe = {
       'id': this.addForm.value.id,
       "bezeichnung": this.addForm.value.bezeichnung,
       "kommentar": this.addForm.value.kommentar
     };
-    
-    console.log('onSubmit: ', this.addKontengruppeObj);
 
-    this.ks.addNewKontengruppe(this.addKontengruppeObj).subscribe(
-      (response: Kontengruppe) => {
-        console.log('Die Kontengruppe mit ID: ', this.addKontengruppeObj?.id, ' wurde hinzugefügt.');
-        console.log(response);
-        this.addKontengruppe.emit(response);
-        this.onClick(response.id);
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
+    console.log(this.addedKontengruppe);
+    
+    
+    this.addKontengruppe.emit(this.addedKontengruppe);      // Abschicken
+
+    this.addForm.reset();
   }
 
   // -----------------------------------//
   // modales Form: Kontengruppe löschen //
   // -----------------------------------//
-
   onDeleteKontengruppe(id: any) {
-    this.ks.delKontengruppeById(id).subscribe(
-      (response: void) => {
-        console.log('Die Kontengruppe mit ID: ', id, ' wurde gelöscht.');
-        this.ngOnInit();
+    this.ks.getKontengruppeById(id).subscribe(
+      (response: Kontengruppe) => {
+        this.delKontengruppe.emit(response);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -108,7 +116,34 @@ export class KontenListComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Modale Formen
+  // ----------------------------------//
+  // modales Form: Kontengruppe ändern //
+  // ----------------------------------//
+  onEditKontengruppe() {
+    this.updForm.controls['id'].setValue(this.editedKontengruppe?.id);
+    this.updForm.controls['bezeichnung'].setValue(this.editedKontengruppe?.bezeichnung);
+    this.updForm.controls['kommentar'].setValue(this.editedKontengruppe?.kommentar);
+    
+    console.log(this.updForm.value);
+  }
+
+  onAendern(){
+    document?.getElementById('closeEditForm')?.click(); // Forme schließen
+    
+    this.editedKontengruppe = {
+      'id': this.updForm.value.id,
+      "bezeichnung": this.updForm.value.bezeichnung,
+      "kommentar": this.updForm.value.kommentar
+    };
+
+    this.updKontengruppe.emit(this.editedKontengruppe);      // Abschicken
+    
+    this.updForm.reset();
+  }
+
+
+//---------------------------------------------------------------------------------------
+  // Beim Start von modalen Formen
   onOpenModal(mode: string, kontengruppe?: Kontengruppe) {
     console.log('onOpenModal: MODE = ', mode);
     
@@ -120,15 +155,15 @@ export class KontenListComponent implements OnInit, OnDestroy {
     button.setAttribute('data-bs-toggle', 'modal');
     
     if ( mode === 'edit' ) {
-      this.editKontengruppe = kontengruppe;
+      this.editedKontengruppe = kontengruppe;
       button.setAttribute('data-bs-target', '#editKontengruppe');
+      this.onEditKontengruppe();
     }
     if ( mode === 'delete' ) {
-      this.deleteKontengruppe = kontengruppe;
+      this.deletedKontengruppe = kontengruppe;
       button.setAttribute('data-bs-target', '#deleteKontengruppe');
     }
     if ( mode === 'add' ) {
-      this.initForm();
       button.setAttribute('data-bs-target', '#addKontengruppe');
     }
     
@@ -136,7 +171,7 @@ export class KontenListComponent implements OnInit, OnDestroy {
     button.click();
   }
 
-  // Bei Ausgang
+  // Beim Ausgang
   ngOnDestroy(): void {
     this.sub?.unsubscribe;
   }

@@ -87,7 +87,7 @@
                           <input
                             class="form-control"
                             type="text"
-                            fornControlName="id"
+                            formControlName="id"
                           >
                         </div>
                         <!-- BEZEICHNUNG -->
@@ -116,11 +116,6 @@
                     </form>
 
                 </div>
-
-                <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Speichern</button>
-                </div> -->
             </div>
         </div>
     </div>
@@ -130,18 +125,48 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editKontengruppeLabel">Änderung von der Kontengruppe: "{{ editKontengruppe?.bezeichnung }}"</h5>
+                    <h5 class="modal-title" id="editKontengruppeLabel">Änderung von der Kontengruppe: "{{ editedKontengruppe?.bezeichnung }}"</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <p>Hier muss Form sein</p>
-                </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Speichern</button>
+                    <form [formGroup]="updForm">
+                        <!-- ID -->
+                        <div class="form-group">
+                          <label for="id">Id</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            formControlName="id"
+                          >
+                        </div>
+                        <!-- BEZEICHNUNG -->
+                        <div class="form-group">
+                          <label for="bezeichnung">Bezeichnung</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            formControlName="bezeichnung"
+                          >
+                        </div>
+                        <!-- KOMMENTAR -->
+                        <div class="form-group">
+                            <label>Kommentar</label>
+                            <input
+                                class="form-control"
+                                type="text"
+                                formControlName="kommentar"
+                            >
+                        </div>
+
+                        <div class="modal-footer">
+                            <button id="closeEditForm" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schlißen</button>
+                            <button (click)="onAendern()" type="button" class="btn btn-primary">Ändern</button>
+                        </div>
+                    </form>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -151,17 +176,17 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteKontengruppeLabel">Löschen von der Kontengruppe: "{{ deleteKontengruppe?.bezeichnung }}"</h5>
+                    <h5 class="modal-title" id="deleteKontengruppeLabel">Löschen von der Kontengruppe: "{{ deletedKontengruppe?.bezeichnung }}"</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <p>Willst du es wirklich die Kontengruppe mit ID: {{ deleteKontengruppe?.id }} löschen?</p>
+                    <p>Willst du es wirklich die Kontengruppe mit ID: {{ deletedKontengruppe?.id }} löschen?</p>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="onDeleteKontengruppe(deleteKontengruppe?.id)">Löschen</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="onDeleteKontengruppe(deletedKontengruppe?.id)">Löschen</button>
                 </div>
             </div>
         </div>

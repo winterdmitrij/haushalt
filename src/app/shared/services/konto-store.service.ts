@@ -29,7 +29,7 @@ export class KontoStoreService extends BaseApi {
   }
 
   // Ändern einer Kontengruppe
-  updKontengruppeById(kontengruppe: Kontengruppe): Observable<Kontengruppe> {
+  updKontengruppe(kontengruppe: Kontengruppe): Observable<Kontengruppe> {
     return this.put(`kontengruppen/${kontengruppe.id}`, kontengruppe);
   }
 
